@@ -1,0 +1,36 @@
+name: Pack and Test
+on:
+  push:
+    branches:
+      - master
+  pull_request_target:
+    types:
+      - opened
+      - synchronize
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+  DOTNET_NOLOGO: true
+  NuGetDirectory: ${{github.workspace}}/nuget
+defaults:
+  run:
+    shell: pwsh
+jobs:
+  pack_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: GitHub Ref
+        run: |
+          echo "GitHub Ref: ${{github.ref}}"
+      - name: GitHub Head Ref
+        run: |
+          echo "GitHub Head Ref: ${{github.head_ref}}"
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{github.head_ref}}
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+      - name: Pack
+        run: dotnet pack --configuration Release --output ${{env.NuGetDirectory}}
+      - name: Run tests
+        run: dotnet test --configuration Release

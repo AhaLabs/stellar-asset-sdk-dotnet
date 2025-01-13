@@ -1,0 +1,14 @@
+- name: Home
+  href: /
+  homepage: index.md
+
+- name: SDK Reference
+  href: api/
+  homepage: api/index.md
+
+- name: Tutorials
+  href: tutorials/
+  homepage: tutorials/index.md
+
+- name: Github
+  href: https://github.com/elucidsoft/dotnet-stellar-sdk

@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Version>12.0.0</Version>
+        <ApplicationIcon/>
+        <OutputType>Library</OutputType>
+        <StartupObject/>
+        <Description>Tools for working with Stellar Assets</Description>
+        <PackageId>stellar-dotnet-sdk</PackageId>
+        <PackageLicense>sss</PackageLicense>
+        <EnablePackageValidation>true</EnablePackageValidation>
+        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+        <PackageProjectUrl>https://github.com/AhaLabs/stellar-asset-sdk-dotnet</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/AhaLabs/stellar-asset-sdk-dotnet</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>'.NET Core' 'Stellar' 'Horizon' 'Blockchain' 'Crypto' 'Distributed Ledger'</PackageTags>
+        <!-- <ReleaseNotes>https://github.com/AhaLabs/stellar-asset-sdk-dotnet/releases</ReleaseNotes> -->
+        <Nullable>enable</Nullable>
+        <WarningLevel>1</WarningLevel>
+        <LangVersion>12</LangVersion>
+    </PropertyGroup>
+    <!-- <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup> -->
+    <PropertyGroup>
+        <PackageReadmeFile>nugetreadme.md</PackageReadmeFile>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="stellar-dotnet-sdk" Version="13.0.0" />
+        <PackageReference Include="stellar-dotnet-sdk-xdr" Version="13.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="..\LICENSE.txt" Pack="true" PackagePath=""/>
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="..\nugetreadme.md" Pack="true" PackagePath=""/>
+    </ItemGroup>
+</Project>
