@@ -1,0 +1,75 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2018
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StellarAssetSdk", "StellarAssetSdk\StellarAssetSdk.csproj", "{6041C4AE-94DE-435B-84F5-D35D2CC5B9DE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StellarAssetSdk.Tests", "StellarAssetSdk.Tests\StellarAssetSdk.Tests.csproj", "{B005220F-602B-4888-A72F-A4583181773A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StellarAssetSdk.Cli", "StellarAssetSdk.Cli\StellarAssetSdk.Cli.csproj", "{7BA6DFB8-5736-47EC-8995-E652D221E077}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{AF4AA978-5DCC-4343-9134-EA1CE2CF3FB7}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE.txt = LICENSE.txt
+		CONTRIBUTING.md = CONTRIBUTING.md
+		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
+		README.md = README.md
+		nugetreadme.md = nugetreadme.md
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{88F76D91-FE64-4BF1-9072-7FA732A1EAC0}"
+	ProjectSection(SolutionItems) = preProject
+		.github\release-drafter.yml = .github\release-drafter.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{176D6131-034E-4662-AF0E-326CBCCABAF0}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\release_mgmt.yml = .github\workflows\release_mgmt.yml
+		.github\workflows\publish_nuget.yml = .github\workflows\publish_nuget.yml
+		.github\workflows\update-documentation.yml = .github\workflows\update-documentation.yml
+		.github\workflows\pack_and_test.yml = .github\workflows\pack_and_test.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IssueTemplate", "IssueTemplate", "{83F7A5C8-A220-42AA-A2E4-DAD5FDB014D3}"
+	ProjectSection(SolutionItems) = preProject
+		.github\ISSUE_TEMPLATE\Feature_request.md = .github\ISSUE_TEMPLATE\Feature_request.md
+		.github\ISSUE_TEMPLATE\Bug_report.md = .github\ISSUE_TEMPLATE\Bug_report.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6041C4AE-94DE-435B-84F5-D35D2CC5B9DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6041C4AE-94DE-435B-84F5-D35D2CC5B9DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6041C4AE-94DE-435B-84F5-D35D2CC5B9DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6041C4AE-94DE-435B-84F5-D35D2CC5B9DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B005220F-602B-4888-A72F-A4583181773A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B005220F-602B-4888-A72F-A4583181773A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B005220F-602B-4888-A72F-A4583181773A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B005220F-602B-4888-A72F-A4583181773A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BA6DFB8-5736-47EC-8995-E652D221E077}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BA6DFB8-5736-47EC-8995-E652D221E077}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BA6DFB8-5736-47EC-8995-E652D221E077}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BA6DFB8-5736-47EC-8995-E652D221E077}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB19EF41-BF22-41D0-B856-858C6FC17068}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB19EF41-BF22-41D0-B856-858C6FC17068}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB19EF41-BF22-41D0-B856-858C6FC17068}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB19EF41-BF22-41D0-B856-858C6FC17068}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E63EA592-2696-4E6A-BA56-97D6016449FB}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{88F76D91-FE64-4BF1-9072-7FA732A1EAC0} = {AF4AA978-5DCC-4343-9134-EA1CE2CF3FB7}
+		{176D6131-034E-4662-AF0E-326CBCCABAF0} = {88F76D91-FE64-4BF1-9072-7FA732A1EAC0}
+		{83F7A5C8-A220-42AA-A2E4-DAD5FDB014D3} = {88F76D91-FE64-4BF1-9072-7FA732A1EAC0}
+	EndGlobalSection
+EndGlobal

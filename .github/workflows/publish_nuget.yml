@@ -1,0 +1,75 @@
+name: Publish to NuGet
+on:
+  release:
+    types:
+      - published
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+  DOTNET_NOLOGO: true
+  NuGetDirectory: ${{github.workspace}}/nuget
+defaults:
+  run:
+    shell: pwsh
+jobs:
+  create_nuget:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+      - name: Set version
+        id: set_version
+        shell: pwsh
+        run: |
+          echo "$version"
+          $version = "${{github.event.release.tag_name}}"
+          $isPrerelease = "${{github.event.release.prerelease}}" -eq "true"
+          $hasPrereleaseSuffix = $version -match "-\w+"
+          if ($isPrerelease -and -not $hasPrereleaseSuffix) {
+            Write-Error "Pre-release tag must contain a suffix (e.g., -alpha, -beta, -rc). Found: $version"
+            exit 1
+          }
+          
+          if (-not $isPrerelease -and $hasPrereleaseSuffix) {
+            Write-Error "Regular release tag must not contain a pre-release suffix. Found: $version"
+            exit 1
+          }
+          echo "VERSION=$version" >> $env:GITHUB_ENV
+      - run: dotnet pack --configuration Release --output ${{env.NuGetDirectory}} -p:PackageVersion=${{env.VERSION}}
+      - uses: actions/upload-artifact@v3
+        with:
+          name: nuget
+          if-no-files-found: error
+          retention-days: 7
+          path: ${{env.NuGetDirectory}}/*.nupkg
+
+  validate_nuget:
+    runs-on: ubuntu-latest
+    needs: create_nuget
+    steps:
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+      - uses: actions/download-artifact@v3
+        with:
+          name: nuget
+          path: ${{env.NuGetDirectory}}
+      - name: Install nuget validator
+        run: dotnet tool update Meziantou.Framework.NuGetPackageValidation.Tool --global
+      - name: Validate package
+        run: meziantou.validate-nuget-package --excluded-rules IconMustBeSet,Symbols,AuthorMustBeSet (Get-ChildItem "${{env.NuGetDirectory}}/*.nupkg")
+  deploy:
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    needs: validate_nuget
+    steps:
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v4
+      - uses: actions/download-artifact@v3
+        with:
+          name: nuget
+          path: ${{env.NuGetDirectory}}
+      - name: Publish NuGet package
+        run: |
+          foreach($file in (Get-ChildItem "${{env.NuGetDirectory}}" -Recurse -Include *.nupkg)) {
+              dotnet nuget push $file --api-key "${{secrets.NUGET_API_KEY}}" --source https://api.nuget.org/v3/index.json --skip-duplicate
+          }

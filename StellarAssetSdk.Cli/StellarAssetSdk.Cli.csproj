@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <IsPackable>false</IsPackable>
+        <RootNamespace>StellarAssetSdk.Cli</RootNamespace>
+        <LangVersion>12</LangVersion>
+        <PackageId>StellarAssetSdk.Cli</PackageId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\StellarAssetSdk\StellarAssetSdk.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="NSec.Cryptography" Version="22.4.0"/>
+        <PackageReference Include="stellar-dotnet-sdk" Version="13.0.0" />
+        <PackageReference Include="stellar-dotnet-sdk-xdr" Version="13.0.0" />  
+    </ItemGroup>
+
+</Project>

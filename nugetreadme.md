@@ -1,0 +1,1 @@
+The .NET Stellar Asset SDK facilitates Issuing, minting, and distributing tokens on stellar. Also helps with more advanced situations where the distributor cannot recieve tokens directly, only through claimable balances.
