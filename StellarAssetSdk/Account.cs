@@ -1,11 +1,14 @@
+using System.Threading.Tasks;
 using StellarDotnetSdk;
 using StellarDotnetSdk.Accounts;
 using StellarDotnetSdk.Responses;
+using MuxedAccount = StellarDotnetSdk.Xdr.MuxedAccount;
 
 namespace StellarAssetSdk;
 
-public class AccountChecker
+public class AccountChecker(MuxedAccount account)
 {
+    
     
 //Set network and server
     /*

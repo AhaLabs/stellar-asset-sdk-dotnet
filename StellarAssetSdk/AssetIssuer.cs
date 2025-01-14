@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using StellarDotnetSdk;
 using StellarDotnetSdk.Accounts;
 using StellarDotnetSdk.Operations;
@@ -8,6 +10,7 @@ using Claimant = StellarDotnetSdk.Claimants.Claimant;
 using Transaction = StellarDotnetSdk.Transactions.Transaction;
 using Asset = StellarDotnetSdk.Assets.Asset;
 using ClaimPredicate = StellarDotnetSdk.Claimants.ClaimPredicate;
+
 
 namespace StellarAssetSdk;
 
@@ -41,7 +44,7 @@ public class AssetIssuer(Server server, Account sgIssuer, Account sgOperator)
 
     public async Task<Transaction> TrustlineTransaction(Account account)
     {
-        var changeTrust = new ChangeTrustOperation(Eurcv, null, account.MuxedAccount);
+        var changeTrust = new ChangeTrustOperation(Eurcv, null, null);
         var tx = await server.NewTransactionBuilder(account);
         return tx
             .SetFee(1000)

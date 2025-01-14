@@ -6,7 +6,7 @@
         <OutputType>Library</OutputType>
         <StartupObject/>
         <Description>Tools for working with Stellar Assets</Description>
-        <PackageId>stellar-dotnet-sdk</PackageId>
+        <PackageId>stellar-asset-sdk</PackageId>
         <PackageLicense>sss</PackageLicense>
         <EnablePackageValidation>true</EnablePackageValidation>
         <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
@@ -25,13 +25,11 @@
     <PropertyGroup>
         <PackageReadmeFile>nugetreadme.md</PackageReadmeFile>
     </PropertyGroup>
-    <ItemGroup>
-        <PackageReference Include="stellar-dotnet-sdk" Version="13.0.0" />
-        <PackageReference Include="stellar-dotnet-sdk-xdr" Version="13.0.0" />
-    </ItemGroup>
 
     <ItemGroup>
         <None Include="..\LICENSE.txt" Pack="true" PackagePath=""/>
+        <PackageReference Include="stellar-dotnet-sdk" Version="13.0.0" />
+        <PackageReference Include="stellar-dotnet-sdk-xdr" Version="13.0.0" />
     </ItemGroup>
     <ItemGroup>
         <None Include="..\nugetreadme.md" Pack="true" PackagePath=""/>

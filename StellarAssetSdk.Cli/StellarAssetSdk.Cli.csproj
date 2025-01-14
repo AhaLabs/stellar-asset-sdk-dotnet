@@ -5,9 +5,9 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
-        <AssemblyName>StellarAssetSdk.Console</AssemblyName>
         <RootNamespace>StellarAssetSdk.Console</RootNamespace>
         <LangVersion>12</LangVersion>
+        <PackageId>StellarAssetSdk.Cli</PackageId>
     </PropertyGroup>
 
     <ItemGroup>
@@ -16,6 +16,8 @@
 
     <ItemGroup>
         <PackageReference Include="NSec.Cryptography" Version="22.4.0"/>
+        <PackageReference Include="stellar-dotnet-sdk" Version="13.0.0" />
+        <PackageReference Include="stellar-dotnet-sdk-xdr" Version="13.0.0" />  
     </ItemGroup>
 
 </Project>

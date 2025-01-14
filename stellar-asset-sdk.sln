@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StellarAssetSdk", "StellarA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StellarAssetSdk.Tests", "StellarAssetSdk.Tests\StellarAssetSdk.Tests.csproj", "{B005220F-602B-4888-A72F-A4583181773A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StellarAssetSdk.Console", "StellarAssetSdk.Console\StellarAssetSdk.Console.csproj", "{7BA6DFB8-5736-47EC-8995-E652D221E077}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StellarAssetSdk.Cli", "StellarAssetSdk.Cli\StellarAssetSdk.Cli.csproj", "{7BA6DFB8-5736-47EC-8995-E652D221E077}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{AF4AA978-5DCC-4343-9134-EA1CE2CF3FB7}"
 	ProjectSection(SolutionItems) = preProject
