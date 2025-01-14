@@ -22,7 +22,6 @@ public class Runner
         tx.Sign(sgIssuer);
         res = await server.SubmitTransaction(tx);
         
-
         // Add trustline to Alice
         
         var trustlineTx = await assetIssuer.TrustlineTransaction(aliceAccount);
