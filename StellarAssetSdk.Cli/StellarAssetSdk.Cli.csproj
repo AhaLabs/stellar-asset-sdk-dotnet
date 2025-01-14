@@ -5,7 +5,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
-        <RootNamespace>StellarAssetSdk.Console</RootNamespace>
+        <RootNamespace>StellarAssetSdk.Cli</RootNamespace>
         <LangVersion>12</LangVersion>
         <PackageId>StellarAssetSdk.Cli</PackageId>
     </PropertyGroup>
