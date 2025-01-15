@@ -82,10 +82,10 @@ public class Server
             switch (res.Status)
             {
                 case TransactionInfo.TransactionStatus.SUCCESS:
-                {
-                    DebugInfo.WriteLine("tx", res);
-                    return res;
-                }
+                    {
+                        DebugInfo.WriteLine("tx", res);
+                        return res;
+                    }
                 case TransactionInfo.TransactionStatus.FAILED:
                     throw new TransactionSubmissionException(
                         $"Transaction submission failed: {res.ResultValue}");
@@ -110,10 +110,10 @@ public class Server
         Console.WriteLine($"status: {result.Status}");
         if (result.Status == SendTransactionResponse.SendTransactionStatus.ERROR)
         {
-            
+
             throw new TransactionSendFailed(result.ErrorResultXdr!);
         }
-        
+
         return await GetTransaction(result.Hash);
     }
 
@@ -176,7 +176,7 @@ public class TransactionSubmissionTimeoutException : Exception
 
 public class TransactionSendFailed : Exception
 {
-    public TransactionSendFailed(string s )
+    public TransactionSendFailed(string s)
         : base($"Transaction send failed. No pending transaction.\n{s}")
     {
     }

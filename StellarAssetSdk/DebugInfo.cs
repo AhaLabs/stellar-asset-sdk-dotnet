@@ -14,7 +14,7 @@ public static class DebugInfo
         string debugOutput = JsonSerializer.Serialize(obj, new JsonSerializerOptions { WriteIndented = true });
         Debug.WriteLine($"{name}: {debugOutput}");
     }
-    
+
     public static void WriteLine(string name, GetTransactionResponse res)
     {
         // byte[] decodedBytes = Convert.FromBase64String(res.ResultXdr!);

@@ -8,9 +8,9 @@ namespace StellarAssetSdk;
 
 public class AccountChecker(MuxedAccount account)
 {
-    
-    
-//Set network and server
+
+
+    //Set network and server
     /*
     public static async Task GetAccountBalance(string account)
     {

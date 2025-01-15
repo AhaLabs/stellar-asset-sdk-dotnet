@@ -17,21 +17,21 @@ public class Runner
         tx.Sign(sgIssuer);
         tx.Sign(sgOperator);
         var res = await server.SubmitTransaction(tx);
-        
+
         tx = await assetIssuer.MintTransaction("2222222");
         tx.Sign(sgIssuer);
         res = await server.SubmitTransaction(tx);
-        
+
         // Add trustline to Alice
-        
+
         var trustlineTx = await assetIssuer.TrustlineTransaction(aliceAccount);
-        trustlineTx.Sign(alice);        
+        trustlineTx.Sign(alice);
         res = await server.SubmitTransaction(trustlineTx);
-        
+
         var paymentTx = await assetIssuer.Payment(aliceAccount, "10000000");
         paymentTx.Sign(sgIssuer);
         paymentTx.Sign(sgOperator);
         res = await server.SubmitTransaction(paymentTx);
-        
+
     }
 }
