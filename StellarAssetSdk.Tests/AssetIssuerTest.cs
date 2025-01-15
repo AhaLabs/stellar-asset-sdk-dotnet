@@ -12,7 +12,7 @@ public class AssetIssuerTest
     [TestMethod]
     public async Task Friendbot()
     {
-        var server = StellarAssetSdk.Server.Testnet();
+        var server = StellarAssetSdk.Server.Local();
         var res = await server.RpcServer.GetNetwork();
         Console.WriteLine(res.FriendbotUrl);
     }
@@ -31,7 +31,7 @@ public class AssetIssuerTest
     [TestMethod]
     public async Task Mint()
     {
-        var server = StellarAssetSdk.Server.Testnet();
+        var server = StellarAssetSdk.Server.Local();
         var sgIssuer = await server.GenerateAndFund();
         var sgOperator = await server.GenerateAndFund();
         var alice = await server.GenerateAndFund();
