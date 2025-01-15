@@ -31,7 +31,7 @@ public class AssetIssuerTest
     [TestMethod]
     public async Task Mint()
     {
-        var server = StellarAssetSdk.Server.Local();
+        var server = StellarAssetSdk.Server.Testnet();
         var sgIssuer = await server.GenerateAndFund();
         var sgOperator = await server.GenerateAndFund();
         var alice = await server.GenerateAndFund();

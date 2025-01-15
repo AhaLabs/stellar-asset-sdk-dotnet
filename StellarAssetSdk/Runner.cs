@@ -1,6 +1,8 @@
 using System;
 using System.Threading.Tasks;
+using dotnetstandard_bip32;
 using StellarDotnetSdk.Accounts;
+using StellarDotnetSdk.Xdr;
 
 namespace StellarAssetSdk;
 
@@ -32,6 +34,17 @@ public class Runner
         paymentTx.Sign(sgIssuer);
         paymentTx.Sign(sgOperator);
         res = await server.SubmitTransaction(paymentTx);
+        
+        var createClaimableBalance = await assetIssuer.CreateClaimableBalanceTransaction(aliceAccount, "10000000");
+        createClaimableBalance.Sign(alice);
+        res = await server.SubmitTransaction(createClaimableBalance);
+        var txRes = TransactionResult.Decode(new XdrDataInputStream(Convert.FromBase64String(res.ResultXdr!)))!;
+        var resRes = txRes.Result.Results[0]!;
+        
+        // Look up the ID for the claimable balance to be used to claim it.
+        Console.WriteLine(resRes.Tr.CreateClaimableBalanceResult.BalanceID.V0.InnerValue.ToStringHex());
+    
+
 
     }
 }

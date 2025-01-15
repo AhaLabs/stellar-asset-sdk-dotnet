@@ -113,7 +113,7 @@ public class AssetIssuer(Server server, Account sgIssuer, Account sgOperator)
                 new Claimant(sender.AccountId, ClaimPredicate.Unconditional())
             ]);
 
-        var tx = await server.NewTransactionBuilder(SgIssuer);
+        var tx = await server.NewTransactionBuilder(sender);
         return tx
             .SetFee(1000)
             .AddOperation(claimableBalance)
