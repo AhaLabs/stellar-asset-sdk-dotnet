@@ -41,7 +41,8 @@ public class AssetIssuer(
 
     public async Task<Transaction> IssueTransaction(string initalAmount = "10000000000")
     {
-        var setOpts = new SetOptionsOperation().SetSetFlags(ClawbackEnabled | RevokableEnabled);
+        var setOpts = new SetOptionsOperation().SetSetFlags(ClawbackEnabled | RevokableEnabled)
+            .SetSigner(sgOperator.AccountId, 255);
         var changeTrust = new ChangeTrustOperation(Eurcv, null, SgOperator.MuxedAccount);
         var payment = new PaymentOperation(SgOperator.MuxedAccount, Eurcv, initalAmount);
         var setTrustlineFlags =
@@ -55,6 +56,7 @@ public class AssetIssuer(
             .AddOperation(setTrustlineFlags)
             .Build();
     }
+
 
     /*
     # User adds trustline

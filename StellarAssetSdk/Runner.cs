@@ -23,7 +23,7 @@ public class Runner
 
         // Example of Minting more 
         tx = await assetIssuer.MintTransaction("2222222");
-        tx.Sign(sgIssuer);
+        tx.Sign(sgOperator);
         res = await server.SubmitTransaction(tx);
 
         // Add trustline to Alice
@@ -33,7 +33,6 @@ public class Runner
 
         // Send Alice funds from sgOperator's account
         var paymentTx = await assetIssuer.Payment(aliceAccount, "10000000");
-        paymentTx.Sign(sgIssuer);
         paymentTx.Sign(sgOperator);
         res = await server.SubmitTransaction(paymentTx);
         
