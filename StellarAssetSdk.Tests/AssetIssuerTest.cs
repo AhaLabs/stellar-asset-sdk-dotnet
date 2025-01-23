@@ -36,6 +36,6 @@ public class AssetIssuerTest
         var sgOperator = await server.GenerateAndFund();
         var alice = await server.GenerateAndFund();
         Console.WriteLine($"{sgIssuer.AccountId}, {sgOperator.AccountId}, {alice.AccountId}");
-        await Runner.Run(server, sgIssuer, sgOperator, alice);
+        await Runner.Run(server, sgIssuer, sgOperator, alice, Horizon.Local());
     }
 }

@@ -8,7 +8,7 @@ namespace StellarAssetSdk;
 
 public class Runner
 {
-    public static async Task Run(Server server, KeyPair sgIssuer, KeyPair sgOperator, KeyPair alice)
+    public static async Task Run(Server server, KeyPair sgIssuer, KeyPair sgOperator, KeyPair alice, Horizon horizon)
     {
         var sgIssuerAccount = new Account(sgIssuer.AccountId, 1);
         var sgOperatorAccount = new Account(sgOperator.AccountId, 1);
@@ -46,6 +46,9 @@ public class Runner
         // Look up the ID for the claimable balance to be used to claim it.
         var balanceId = resRes.Tr.CreateClaimableBalanceResult.BalanceID.V0.InnerValue!;
         Console.WriteLine(balanceId.ToStringHex());
+        
+        var responses = await horizon.ClaimableBalance(assetIssuer.Eurcv, sgOperator);
+        Console.WriteLine(responses[0].Id);
         
         // Claim Balance
         // TODO: use  // ClaimClaimableBalanceTransaction

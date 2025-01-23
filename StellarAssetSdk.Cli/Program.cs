@@ -15,11 +15,10 @@ internal class Program
 {
     private static async Task Main(string[] args)
     {
-        Network.Use(Network.Test());
         var server = Server.Testnet();
         var sgIssuer = KeyPair.FromSecretSeed(args[0]);
         var sgOperator = KeyPair.FromSecretSeed(args[1]);
         var alice = KeyPair.FromSecretSeed(args[2]);
-        await Runner.Run(server, sgIssuer, sgOperator, alice);
+        await Runner.Run(server, sgIssuer, sgOperator, alice, Horizon.Testnet());
     }
 }
