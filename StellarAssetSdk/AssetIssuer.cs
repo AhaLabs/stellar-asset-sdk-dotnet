@@ -177,7 +177,7 @@ public class AssetIssuer(
     public async Task<Transaction> ClaimClaimableBalanceTransaction(Account receiver, byte[] claimableBalanceId)
     {
         // Adding some zeros to match the real claimable balance id
-        var claimableIdHex = "00000000" + claimableBalanceId.ToStringHex();
+        var claimableIdHex = claimableBalanceId.ToStringHex();
 
         var setTrustlineFlags =
             new SetTrustlineFlagsOperation(Eurcv, SgOperator.KeyPair, AuthorizeTrustline, NoFlags);
