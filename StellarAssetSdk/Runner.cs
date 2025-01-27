@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using dotnetstandard_bip32;
 using StellarDotnetSdk.Accounts;
 using StellarDotnetSdk.Xdr;
-
 namespace StellarAssetSdk;
 
 public class Runner
@@ -42,22 +41,14 @@ public class Runner
         res = await server.SubmitTransaction(createClaimableBalance);
         var txRes = TransactionResult.Decode(new XdrDataInputStream(Convert.FromBase64String(res.ResultXdr!)))!;
         var resRes = txRes.Result.Results[0]!;
-        
+
         // Look up the ID for the claimable balance to be used to claim it.
         var balanceId = resRes.Tr.CreateClaimableBalanceResult.BalanceID.V0.InnerValue!;
         Console.WriteLine(balanceId.ToStringHex());
-        
-        // Claim Balance
-        // TODO: use  // ClaimClaimableBalanceTransaction
-        try
-        {
-            var claimBalance = await assetIssuer.ClaimClaimableBalanceTransaction(sgOperatorAccount, balanceId);
-        }
-        catch (NotImplementedException e)
-        {
-            Console.WriteLine(e.Message);
-        }
-        
 
+        // Claim the claimable balance from sgOperator
+        var claimBalanceTx = await assetIssuer.ClaimClaimableBalanceTransaction(sgOperatorAccount, balanceId);
+        claimBalanceTx.Sign(sgOperator);
+        res = await server.SubmitTransaction(claimBalanceTx);
     }
 }

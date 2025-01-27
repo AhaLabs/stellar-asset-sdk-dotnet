@@ -10,6 +10,7 @@ using Claimant = StellarDotnetSdk.Claimants.Claimant;
 using Transaction = StellarDotnetSdk.Transactions.Transaction;
 using Asset = StellarDotnetSdk.Assets.Asset;
 using ClaimPredicate = StellarDotnetSdk.Claimants.ClaimPredicate;
+using dotnetstandard_bip32;
 
 
 namespace StellarAssetSdk;
@@ -175,7 +176,23 @@ public class AssetIssuer(
      */
     public async Task<Transaction> ClaimClaimableBalanceTransaction(Account receiver, byte[] claimableBalanceId)
     {
-        // TODO: use example above
-        throw new NotImplementedException("ClaimClaimableBalanceTransaction");
+        // Adding some zeros to match the real claimable balance id
+        var claimableIdHex = claimableBalanceId.ToStringHex();
+
+        var setTrustlineFlags =
+            new SetTrustlineFlagsOperation(Eurcv, SgOperator.KeyPair, AuthorizeTrustline, NoFlags);
+        var clearSetTrustlineFlags =
+            new SetTrustlineFlagsOperation(Eurcv, SgOperator.KeyPair, NoFlags, AuthorizeTrustline);
+        var claimClaimableBalance = 
+            new ClaimClaimableBalanceOperation(claimableIdHex, receiver.MuxedAccount);
+
+        var tx = await server.NewTransactionBuilder(SgIssuer);
+
+        return tx
+            .SetFee(1000)
+            .AddOperation(setTrustlineFlags)
+            .AddOperation(claimClaimableBalance)
+            .AddOperation(clearSetTrustlineFlags)
+            .Build();
     }
 }
