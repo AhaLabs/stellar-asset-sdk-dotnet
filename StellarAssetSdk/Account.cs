@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using System;
 using StellarDotnetSdk;
 using StellarDotnetSdk.Accounts;
 using StellarDotnetSdk.Responses;
@@ -11,17 +12,14 @@ public class AccountChecker(MuxedAccount account)
 
 
     //Set network and server
-    /*
-    public static async Task GetAccountBalance(string account)
+    
+    public static async Task<Balance[]> GetAccountBalance(string account)
     {
         //Set server
-        Server server = new Server("https://horizon-testnet.stellar.org");
-
-        //Generate a keypair from the account id.
-        KeyPair keypair = KeyPair.FromSecretSeed(account);
+        StellarDotnetSdk.Server server = new StellarDotnetSdk.Server("https://horizon-testnet.stellar.org");
 
         //Load the account
-        AccountResponse accountResponse = await server.Accounts.Account(keypair.AccountId);
+        AccountResponse accountResponse = await server.Accounts.Account(account);
 
         //Get the balance
         Balance[] balances = accountResponse.Balances;
@@ -32,6 +30,8 @@ public class AccountChecker(MuxedAccount account)
             Console.WriteLine("Asset Code: " + asset.AssetType);
             Console.WriteLine("Asset Amount: " + asset.BalanceString);
         }
+
+        return balances;
     }
-*/
+
 }
