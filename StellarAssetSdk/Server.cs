@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -10,37 +11,40 @@ using StellarDotnetSdk.Responses;
 using StellarDotnetSdk.Responses.SorobanRpc;
 using StellarDotnetSdk.Soroban;
 using StellarDotnetSdk.Transactions;
+using StellarDotnetSdk.Xdr;
 using Asset = StellarDotnetSdk.Assets.Asset;
+using Transaction = StellarDotnetSdk.Transactions.Transaction;
 
 namespace StellarAssetSdk;
 
 public class Server
 {
     public readonly SorobanServer RpcServer;
+    public readonly StellarDotnetSdk.Server Horizon;
 
-    public Server(SorobanServer rpcServer)
+    public Server(SorobanServer rpcServer, StellarDotnetSdk.Server horizon)
     {
         RpcServer = rpcServer;
+        Horizon = horizon;
     }
 
-    public Server(string uri, string? bearerToken = null)
-    {
-        RpcServer = new SorobanServer(uri, bearerToken);
-    }
-
-    public static Server Testnet()
+    public static Server Testnet(string? uri = null, string? horizonUri = null, string? bearerToken = null)
     {
         Network.UseTestNetwork();
-        return new Server(new SorobanServer(TestnetRpcUrl()));
+        return new Server(new SorobanServer(uri ?? TestnetRpcUrl(), bearerToken),
+            new StellarDotnetSdk.Server(horizonUri ?? "https://horizon-testnet.stellar.org", bearerToken));
     }
 
-    public static Server Local(string? uri = null)
+    public static Server Local(string? uri = null, string? bearerToken = null, string? horrizonUri = null)
     {
         Network.Use(new Network("Standalone Network ; February 2017"));
         var envVar = Environment.GetEnvironmentVariable("STELLAR_TEST_RPC_URL");
-        Console.WriteLine($"Env:{envVar}");
-        return new Server((uri ?? envVar) ?? throw new
-            InvalidOperationException());
+        var finalUri = (uri ?? envVar) ?? throw new InvalidOperationException();
+        var horizon =
+            new StellarDotnetSdk.Server(
+                horrizonUri ?? Environment.GetEnvironmentVariable("STELLAR_TEST_HORIZON_URL") ??
+                throw new InvalidOperationException(), bearerToken);
+        return new Server(new SorobanServer(finalUri, bearerToken), horizon);
     }
 
 
@@ -82,13 +86,16 @@ public class Server
             switch (res.Status)
             {
                 case TransactionInfo.TransactionStatus.SUCCESS:
-                    {
-                        DebugInfo.WriteLine("tx", res);
-                        return res;
-                    }
+                {
+                    DebugInfo.WriteLine("tx", res);
+                    return res;
+                }
                 case TransactionInfo.TransactionStatus.FAILED:
+                {
                     throw new TransactionSubmissionException(
-                        $"Transaction submission failed: {res.ResultValue}");
+                        $"Transaction submission failed: {res.ResultValue} {res.ResultXdr}, {res.TxHash}");
+                }
+                    
 
                 case TransactionInfo.TransactionStatus.NOT_FOUND:
                     break;
@@ -110,7 +117,6 @@ public class Server
         Console.WriteLine($"status: {result.Status}");
         if (result.Status == SendTransactionResponse.SendTransactionStatus.ERROR)
         {
-
             throw new TransactionSendFailed(result.ErrorResultXdr!);
         }
 
@@ -149,6 +155,13 @@ public class Server
 
     }
     */
+    public async Task<Page<ClaimableBalanceResponse>> ClaimableBalance(Asset asset, KeyPair claimant, int limit,
+        string? cursor = null)
+    {
+        var res = Horizon.ClaimableBalances.ForAsset(asset).ForClaimant(claimant).Limit(limit);
+        if (cursor != null) res.Cursor(cursor);
+        return (await res.Execute());
+    }
 }
 
 public class TransactionSubmissionException : Exception
