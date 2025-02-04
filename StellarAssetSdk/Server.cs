@@ -173,6 +173,26 @@ public class Server
         return balances;
     }
 
+    public async Task<string> GetAccountBalanceForAsset(Asset asset, string account)
+    {
+        //Load the account
+        AccountResponse accountResponse = await Horizon.Accounts.Account(account);
+
+        //Get all assets balances
+        Balance[] balances = accountResponse.Balances;
+        AssetTypeCreditAlphaNum12? assetNum = asset as AssetTypeCreditAlphaNum12;
+
+        //Get only the right asset balance
+        foreach (var assetBalance in balances)
+        {
+            if (assetBalance.AssetCode == assetNum.Code && assetBalance.AssetIssuer == assetNum.Issuer) {
+                return assetBalance.BalanceString;
+            }
+        }
+
+        return "0";
+    }
+
 }
 
 public class TransactionSubmissionException : Exception

@@ -47,6 +47,8 @@ public class Runner
         var limit = 1;
         var responses = await server.ClaimableBalance(assetIssuer.Eurcv, sgOperator, limit);
         
+        var eurcvBalanceBefore = await server.GetAccountBalanceForAsset(assetIssuer.Eurcv,sgOperatorAccount.AccountId);
+        Console.WriteLine(eurcvBalanceBefore);
 
         // Claim the claimable balance from sgOperator
         var claimBalanceTx = await assetIssuer.ClaimClaimableBalanceTransaction(sgOperatorAccount, responses.Records[0].Id.HexToByteArray());
@@ -58,6 +60,9 @@ public class Runner
         claimBalanceTx = await assetIssuer.ClaimClaimableBalanceTransaction(sgOperatorAccount, responses.Records[0].Id.HexToByteArray());
         claimBalanceTx.Sign(sgOperator);
         res = await server.SubmitTransaction(claimBalanceTx);
+
+        var eurcvBalanceAfter = await server.GetAccountBalanceForAsset(assetIssuer.Eurcv,sgOperatorAccount.AccountId);
+        Console.WriteLine(eurcvBalanceAfter);
         
     }
 }
