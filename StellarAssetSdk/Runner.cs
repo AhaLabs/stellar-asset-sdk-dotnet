@@ -36,19 +36,28 @@ public class Runner
         res = await server.SubmitTransaction(paymentTx);
         
         // Create a claimable balance from Alice for sgOperator to be able to claim
-        var createClaimableBalance = await assetIssuer.CreateClaimableBalanceTransaction(aliceAccount, "10000000");
+        var createClaimableBalance = await assetIssuer.CreateClaimableBalanceTransaction(aliceAccount, "10");
         createClaimableBalance.Sign(alice);
         res = await server.SubmitTransaction(createClaimableBalance);
-        var txRes = TransactionResult.Decode(new XdrDataInputStream(Convert.FromBase64String(res.ResultXdr!)))!;
-        var resRes = txRes.Result.Results[0]!;
-
-        // Look up the ID for the claimable balance to be used to claim it.
-        var balanceId = resRes.Tr.CreateClaimableBalanceResult.BalanceID.V0.InnerValue!;
-        Console.WriteLine(balanceId.ToStringHex());
+        createClaimableBalance = await assetIssuer.CreateClaimableBalanceTransaction(aliceAccount, "10");
+        createClaimableBalance.Sign(alice);
+        res = await server.SubmitTransaction(createClaimableBalance);
+        
+        
+        var limit = 1;
+        var responses = await server.ClaimableBalance(assetIssuer.Eurcv, sgOperator, limit);
+        
 
         // Claim the claimable balance from sgOperator
-        var claimBalanceTx = await assetIssuer.ClaimClaimableBalanceTransaction(sgOperatorAccount, balanceId);
+        var claimBalanceTx = await assetIssuer.ClaimClaimableBalanceTransaction(sgOperatorAccount, responses.Records[0].Id.HexToByteArray());
         claimBalanceTx.Sign(sgOperator);
         res = await server.SubmitTransaction(claimBalanceTx);
+
+        responses = await responses.Links.Next.Follow();
+        
+        claimBalanceTx = await assetIssuer.ClaimClaimableBalanceTransaction(sgOperatorAccount, responses.Records[0].Id.HexToByteArray());
+        claimBalanceTx.Sign(sgOperator);
+        res = await server.SubmitTransaction(claimBalanceTx);
+        
     }
 }
