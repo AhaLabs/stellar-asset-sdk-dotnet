@@ -35,5 +35,4 @@ public class AssetIssuerTest
         Console.WriteLine($"{sgIssuer.AccountId}, {sgOperator.AccountId}, {alice.AccountId}");
         await Runner.Run(server, sgIssuer, sgOperator, alice);
     }
-
 }
