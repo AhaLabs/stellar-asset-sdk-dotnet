@@ -162,6 +162,16 @@ public class Server
         if (cursor != null) res.Cursor(cursor);
         return (await res.Execute());
     }
+
+    public async Task<Balance[]> GetAccountBalance(string account)
+    {
+        //Load the account
+        AccountResponse accountResponse = await Horizon.Accounts.Account(account);
+
+        //Get the balance
+        Balance[] balances = accountResponse.Balances;
+        return balances;
+    }
 }
 
 public class TransactionSubmissionException : Exception

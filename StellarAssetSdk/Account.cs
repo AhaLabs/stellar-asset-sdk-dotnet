@@ -11,25 +11,25 @@ public class AccountChecker(MuxedAccount account)
 {
     //Set network and server
     
-    public static async Task<Balance[]> GetAccountBalance(string account)
-    {
-        //Set server
-        StellarDotnetSdk.Server server = new StellarDotnetSdk.Server("https://horizon-testnet.stellar.org");
+    // public static async Task<Balance[]> GetAccountBalance(string account)
+    // {
+    //     //Set server
+    //     StellarDotnetSdk.Server server = new StellarDotnetSdk.Server("https://horizon-testnet.stellar.org");
 
-        //Load the account
-        AccountResponse accountResponse = await server.Accounts.Account(account);
+    //     //Load the account
+    //     AccountResponse accountResponse = await server.Accounts.Account(account);
 
-        //Get the balance
-        Balance[] balances = accountResponse.Balances;
+    //     //Get the balance
+    //     Balance[] balances = accountResponse.Balances;
 
-        //Show the balance
-        foreach (var asset in balances)
-        {
-            Console.WriteLine("Asset Code: " + asset.AssetType);
-            Console.WriteLine("Asset Amount: " + asset.BalanceString);
-        }
+    //     //Show the balance
+    //     foreach (var asset in balances)
+    //     {
+    //         Console.WriteLine("Asset Code: " + asset.AssetType);
+    //         Console.WriteLine("Asset Amount: " + asset.BalanceString);
+    //     }
 
-        return balances;
-    }
+    //     return balances;
+    // }
 
 }
