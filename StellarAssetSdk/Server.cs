@@ -35,15 +35,14 @@ public class Server
             new StellarDotnetSdk.Server(horizonUri ?? "https://horizon-testnet.stellar.org", bearerToken));
     }
 
-    public static Server Local(string? uri = null, string? bearerToken = null, string? horrizonUri = null,
+    public static Server Local(string? uri = null, string? bearerToken = null, string? horizonUri = null,
         string? horizonBearerToken = null)
     {
         Network.Use(new Network("Standalone Network ; February 2017"));
         var envVar = Environment.GetEnvironmentVariable("STELLAR_TEST_RPC_URL");
         var finalUri = (uri ?? envVar) ?? throw new InvalidOperationException();
         envVar = Environment.GetEnvironmentVariable("STELLAR_TEST_HORIZON_URL");
-        var horizon = (horrizonUri ?? envVar) ??
-                      throw new InvalidOperationException();
+        var horizon = (horizonUri ?? envVar)!;
         return new Server(new SorobanServer(finalUri, bearerToken),
             new StellarDotnetSdk.Server(horizon, horizonBearerToken));
     }
