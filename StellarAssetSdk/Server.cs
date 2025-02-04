@@ -42,7 +42,7 @@ public class Server
         var envVar = Environment.GetEnvironmentVariable("STELLAR_TEST_RPC_URL");
         var finalUri = (uri ?? envVar) ?? throw new InvalidOperationException();
         envVar = Environment.GetEnvironmentVariable("STELLAR_TEST_HORIZON_URL");
-        var horizon = (horizonUri ?? envVar)!;
+        var horizon = (horizonUri ?? envVar) ?? "http://localhost:8000";
         return new Server(new SorobanServer(finalUri, bearerToken),
             new StellarDotnetSdk.Server(horizon, horizonBearerToken));
     }
