@@ -35,16 +35,16 @@ public class Server
             new StellarDotnetSdk.Server(horizonUri ?? "https://horizon-testnet.stellar.org", bearerToken));
     }
 
-    public static Server Local(string? uri = null, string? bearerToken = null, string? horrizonUri = null)
+    public static Server Local(string? uri = null, string? bearerToken = null, string? horrizonUri = null,
+        string? horizonBearerToken = null)
     {
         Network.Use(new Network("Standalone Network ; February 2017"));
         var envVar = Environment.GetEnvironmentVariable("STELLAR_TEST_RPC_URL");
         var finalUri = (uri ?? envVar) ?? throw new InvalidOperationException();
-        var horizon =
-            new StellarDotnetSdk.Server(
-                horrizonUri ?? Environment.GetEnvironmentVariable("STELLAR_TEST_HORIZON_URL") ??
-                throw new InvalidOperationException(), bearerToken);
-        return new Server(new SorobanServer(finalUri, bearerToken), horizon);
+        var finalHorizedUri = (horrizonUri ?? Environment.GetEnvironmentVariable("STELLAR_TEST_HORIZON_URL")) ??
+                              throw new InvalidOperationException();
+        return new Server(new SorobanServer(finalUri, bearerToken),
+            new StellarDotnetSdk.Server(finalHorizedUri, horizonBearerToken));
     }
 
 
@@ -95,7 +95,7 @@ public class Server
                     throw new TransactionSubmissionException(
                         $"Transaction submission failed: {res.ResultValue} {res.ResultXdr}, {res.TxHash}");
                 }
-                    
+
 
                 case TransactionInfo.TransactionStatus.NOT_FOUND:
                     break;
