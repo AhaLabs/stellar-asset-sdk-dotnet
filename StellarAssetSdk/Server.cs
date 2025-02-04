@@ -41,10 +41,11 @@ public class Server
         Network.Use(new Network("Standalone Network ; February 2017"));
         var envVar = Environment.GetEnvironmentVariable("STELLAR_TEST_RPC_URL");
         var finalUri = (uri ?? envVar) ?? throw new InvalidOperationException();
-        var finalHorizedUri = (horrizonUri ?? Environment.GetEnvironmentVariable("STELLAR_TEST_HORIZON_URL")) ??
-                              throw new InvalidOperationException();
+        envVar = Environment.GetEnvironmentVariable("STELLAR_TEST_HORIZON_URL");
+        var horizon = (horrizonUri ?? envVar) ??
+                      throw new InvalidOperationException();
         return new Server(new SorobanServer(finalUri, bearerToken),
-            new StellarDotnetSdk.Server(finalHorizedUri, horizonBearerToken));
+            new StellarDotnetSdk.Server(horizon, horizonBearerToken));
     }
 
 
