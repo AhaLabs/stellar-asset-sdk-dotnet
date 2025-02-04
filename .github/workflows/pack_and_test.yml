@@ -12,6 +12,7 @@ env:
   DOTNET_NOLOGO: true
   NuGetDirectory: ${{github.workspace}}/nuget
   STELLAR_TEST_RPC_URL: http://localhost:8000/soroban/rpc
+  STELLAR_TEST_HORIZON_URL: http://localhost:8000
 defaults:
   run:
     shell: pwsh
