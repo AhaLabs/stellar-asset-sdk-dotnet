@@ -172,6 +172,7 @@ public class Server
         Balance[] balances = accountResponse.Balances;
         return balances;
     }
+
 }
 
 public class TransactionSubmissionException : Exception
