@@ -1,4 +1,5 @@
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using dotnetstandard_bip32;
 using StellarDotnetSdk.Accounts;
@@ -63,6 +64,10 @@ public class Runner
 
         var eurcvBalanceAfter = await server.GetAccountBalanceForAsset(assetIssuer.Eurcv,sgOperatorAccount.AccountId);
         Console.WriteLine(eurcvBalanceAfter);
+
+        if (eurcvBalanceAfter == eurcvBalanceBefore) {
+            throw new HttpRequestException("The claimable balance hasn't been received");
+        }
         
     }
 }
