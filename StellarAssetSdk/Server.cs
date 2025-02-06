@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using NSec.Cryptography;
@@ -183,16 +184,11 @@ public class Server
         AssetTypeCreditAlphaNum12? assetNum = asset as AssetTypeCreditAlphaNum12;
 
         //Get only the right asset balance
-        foreach (var assetBalance in balances)
-        {
-            if (assetBalance.AssetCode == assetNum.Code && assetBalance.AssetIssuer == assetNum.Issuer) {
-                return assetBalance.BalanceString;
-            }
-        }
-
-        return "0";
+        return balances
+            .FirstOrDefault(b => b.AssetCode == assetNum?.Code &&
+                                 b.AssetIssuer == assetNum?.Issuer)
+            ?.BalanceString ?? "Default Value";
     }
-
 }
 
 public class TransactionSubmissionException : Exception
