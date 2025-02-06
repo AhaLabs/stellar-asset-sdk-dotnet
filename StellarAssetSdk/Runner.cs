@@ -1,4 +1,5 @@
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using dotnetstandard_bip32;
 using StellarDotnetSdk.Accounts;
@@ -47,6 +48,8 @@ public class Runner
         var limit = 1;
         var responses = await server.ClaimableBalance(assetIssuer.Eurcv, sgOperator, limit);
         
+        var eurcvBalanceBefore = await server.GetAccountBalanceForAsset(assetIssuer.Eurcv,sgOperatorAccount.AccountId);
+        Console.WriteLine(eurcvBalanceBefore);
 
         // Claim the claimable balance from sgOperator
         var claimBalanceTx = await assetIssuer.ClaimClaimableBalanceTransaction(sgOperatorAccount, responses.Records[0].Id.HexToByteArray());
@@ -58,6 +61,13 @@ public class Runner
         claimBalanceTx = await assetIssuer.ClaimClaimableBalanceTransaction(sgOperatorAccount, responses.Records[0].Id.HexToByteArray());
         claimBalanceTx.Sign(sgOperator);
         res = await server.SubmitTransaction(claimBalanceTx);
+
+        var eurcvBalanceAfter = await server.GetAccountBalanceForAsset(assetIssuer.Eurcv,sgOperatorAccount.AccountId);
+        Console.WriteLine(eurcvBalanceAfter);
+
+        if (eurcvBalanceAfter == eurcvBalanceBefore) {
+            throw new HttpRequestException("The claimable balance hasn't been received");
+        }
         
     }
 }

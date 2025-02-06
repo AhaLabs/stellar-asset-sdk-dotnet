@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using NSec.Cryptography;
@@ -161,6 +162,32 @@ public class Server
         var res = Horizon.ClaimableBalances.ForAsset(asset).ForClaimant(claimant).Limit(limit);
         if (cursor != null) res.Cursor(cursor);
         return (await res.Execute());
+    }
+
+    public async Task<Balance[]> GetAccountBalance(string account)
+    {
+        //Load the account
+        AccountResponse accountResponse = await Horizon.Accounts.Account(account);
+
+        //Get the balance
+        Balance[] balances = accountResponse.Balances;
+        return balances;
+    }
+
+    public async Task<string> GetAccountBalanceForAsset(Asset asset, string account)
+    {
+        //Load the account
+        AccountResponse accountResponse = await Horizon.Accounts.Account(account);
+
+        //Get all assets balances
+        Balance[] balances = accountResponse.Balances;
+        AssetTypeCreditAlphaNum12? assetNum = asset as AssetTypeCreditAlphaNum12;
+
+        //Get only the right asset balance
+        return balances
+            .FirstOrDefault(b => b.AssetCode == assetNum?.Code &&
+                                 b.AssetIssuer == assetNum?.Issuer)
+            ?.BalanceString ?? "Default Value";
     }
 }
 
