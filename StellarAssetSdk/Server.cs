@@ -29,6 +29,12 @@ public class Server
         Horizon = horizon;
     }
 
+    public Hash NetworkHash =>
+        new()
+        {
+            InnerValue = Network.Current!.NetworkId
+        };
+
     public static Server Testnet(string? uri = null, string? horizonUri = null, string? bearerToken = null)
     {
         Network.UseTestNetwork();
@@ -123,13 +129,23 @@ public class Server
 
         return await GetTransaction(result.Hash);
     }
-
-    public async Task<TransactionBuilder> NewTransactionBuilder(ITransactionBuilderAccount account)
+    
+    public async Task<TransactionBuilder> NewTransactionBuilder(string accountId)
     {
-        var accountInfo = await RpcServer.GetAccount(account.AccountId);
+        var accountInfo = await RpcServer.GetAccount(accountId);
         return new TransactionBuilder(accountInfo);
     }
 
+    public async Task<TransactionBuilder> NewTransactionBuilder(ITransactionBuilderAccount account)
+    {
+        return await NewTransactionBuilder(account.AccountId);
+    }
+
+    public async Task<TransactionBuilder> NewTransactionBuilder(KeyPair account)
+    {
+        return await NewTransactionBuilder(account.AccountId);
+    }
+    
     public async Task<KeyPair> GenerateAndFund()
     {
         var result = KeyPair.Random();
